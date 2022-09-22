@@ -47,10 +47,18 @@
 		8DDFB0AB28DC4FD900904759 /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
+				8DDFB0B928DC519F00904759 /* Feed Feature */,
+			);
+			path = EssentialFeed;
+			sourceTree = "<group>";
+		};
+		8DDFB0B928DC519F00904759 /* Feed Feature */ = {
+			isa = PBXGroup;
+			children = (
 				8DDFB0B328DC505000904759 /* FeedItem.swift */,
 				8DDFB0B528DC507E00904759 /* FeedLoader.swift */,
 			);
-			path = EssentialFeed;
+			path = "Feed Feature";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
