@@ -60,7 +60,8 @@ Demo project created per taking the Essential Developer Academy course.
 5. System delivers a success message.
 
 # Flowchart
----
+![Flowchart diagram](flowchart.drawio.svg)
 # Architecture
----
+![Architecture diagram](architecture.drawio.svg)
+
 ```
