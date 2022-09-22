@@ -1,9 +1,4 @@
-//
-//  FeedItem.swift
-//  EssentialFeed
-//
-//  Created by Alexander Nikolaychuk on 22.09.2022.
-//
+// Copyright © 2022 Oleksandr Nikolaichuk. All rights reserved.
 
 import Foundation
 
