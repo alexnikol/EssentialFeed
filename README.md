@@ -1,5 +1,7 @@
 # Essential Feed
 
+[![CI](https://github.com/alexnikol/EssentialFeed/actions/workflows/CI.yml/badge.svg)](https://github.com/alexnikol/EssentialFeed/actions/workflows/CI.yml)
+
 Demo project created per taking the Essential Developer Academy course.
 
 # Use Cases
