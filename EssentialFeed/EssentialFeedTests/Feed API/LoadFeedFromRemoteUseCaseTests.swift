@@ -134,11 +134,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         let json = ["items": items]
         return try! JSONSerialization.data(withJSONObject: json)
     }
-    
-    private func anyURL() -> URL {
-        URL(string: "http://any-url.com")!
-    }
-    
+        
     private func expect(
         _ sut: RemoteFeedLoader,
         toCompleteWithResult expectedResult: RemoteFeedLoader.Result,
