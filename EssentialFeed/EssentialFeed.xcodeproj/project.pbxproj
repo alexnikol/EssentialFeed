@@ -23,6 +23,7 @@
 		8DF4F2CB28E1A89B003497A9 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4F2CA28E1A89B003497A9 /* CacheFeedUseCaseTests.swift */; };
 		8DF4F2CD28E1C5CE003497A9 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4F2CC28E1C5CE003497A9 /* LocalFeedLoader.swift */; };
 		8DF4F2CF28E1C5E0003497A9 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4F2CE28E1C5E0003497A9 /* FeedStore.swift */; };
+		8DF4F2D128E1CC91003497A9 /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4F2D028E1CC91003497A9 /* RemoteFeedItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		8DF4F2CA28E1A89B003497A9 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		8DF4F2CC28E1C5CE003497A9 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		8DF4F2CE28E1C5E0003497A9 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
+		8DF4F2D028E1CC91003497A9 /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				8DDFB0FA28DCCC3B00904759 /* HTTPClient.swift */,
 				8DDFB0FC28DCCC5400904759 /* FeedItemsMapper.swift */,
 				8DDFB10428DDDB4E00904759 /* URLSessionHTTPClient.swift */,
+				8DF4F2D028E1CC91003497A9 /* RemoteFeedItem.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			files = (
 				8DDFB0FD28DCCC5400904759 /* FeedItemsMapper.swift in Sources */,
 				8DDFB0B628DC507E00904759 /* FeedLoader.swift in Sources */,
+				8DF4F2D128E1CC91003497A9 /* RemoteFeedItem.swift in Sources */,
 				8DDFB0F928DC784800904759 /* RemoteFeedLoader.swift in Sources */,
 				8DF4F2CF28E1C5E0003497A9 /* FeedStore.swift in Sources */,
 				8DF4F2CD28E1C5CE003497A9 /* LocalFeedLoader.swift in Sources */,
