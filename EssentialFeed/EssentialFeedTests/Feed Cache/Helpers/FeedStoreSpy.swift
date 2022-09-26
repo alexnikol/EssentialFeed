@@ -3,10 +3,7 @@
 import Foundation
 import EssentialFeed
 
-class FeedStoreSpy: FeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-    
+class FeedStoreSpy: FeedStore {    
     enum ReceivedMessage: Equatable {
         case deletedCachedFeed
         case insert([LocalFeedItem], Date)
@@ -17,6 +14,7 @@ class FeedStoreSpy: FeedStore {
     
     private var deletionsCompletions: [DeletionCompletion] = []
     private var insertionCompletions: [InsertionCompletion] = []
+    private var retrievalCompletions: [InsertionCompletion] = []
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         deletionsCompletions.append(completion)
@@ -44,7 +42,12 @@ class FeedStoreSpy: FeedStore {
         insertionCompletions[index](nil)
     }
     
-    func retrieve() {
+    func retrieve(completion: @escaping RetrievalCompletion) {
+        retrievalCompletions.append(completion)
         receivedMessages.append(.retrieve)
+    }
+    
+    func completeRetrieval(with error: Error, at index: Int = 0) {
+        retrievalCompletions[index](error)
     }
 }
