@@ -12,3 +12,17 @@ func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedItem]) {
     let localModels = models.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, url: $0.imageURL) }
     return (models, localModels)
 }
+
+extension Date {
+    func minusFeedCacheMaxAge() -> Date {
+        return adding(days: -7)
+    }
+    
+    private func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
+    }
+}
