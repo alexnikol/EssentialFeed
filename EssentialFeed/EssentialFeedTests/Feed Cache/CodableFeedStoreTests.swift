@@ -8,7 +8,7 @@ class CodableFeedStore {
         let feed: [CodableFeedItem]
         let timestamp: Date
         
-        var localFeed: [LocalFeedItem] {
+        var localFeed: [LocalFeedImage] {
             return feed.map { $0.local }
         }
     }
@@ -19,7 +19,7 @@ class CodableFeedStore {
         public let location: String?
         public let url: URL
         
-        public init(_ image: LocalFeedItem) {
+        public init(_ image: LocalFeedImage) {
             self.id = image.id
             self.description = image.description
             self.location = image.location
@@ -33,8 +33,8 @@ class CodableFeedStore {
             self.url = url
         }
         
-        var local: LocalFeedItem {
-            return LocalFeedItem(id: id, description: description, location: location, url: url)
+        var local: LocalFeedImage {
+            return LocalFeedImage(id: id, description: description, location: location, url: url)
         }
     }
     
@@ -50,7 +50,7 @@ class CodableFeedStore {
         completion(.found(feed: decoded.localFeed, timestamp: decoded.timestamp))
     }
     
-    func insert(_ feed: [LocalFeedItem], timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
+    func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
         let encoder = JSONEncoder()
         let encoded = try! encoder.encode(Cache(feed: feed.map(CodableFeedItem.init), timestamp: timestamp))
         try! encoded.write(to: storeURL)
