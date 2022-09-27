@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct RemoteFeedItem: Equatable, Decodable {
+struct RemoteFeedImage: Equatable, Decodable {
     let id: UUID
     let description: String?
     let location: String?
