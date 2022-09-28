@@ -22,7 +22,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
- - name: Select Xcode
+    - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_14.0.app
       
     - name: Xcode version
