@@ -314,13 +314,6 @@
 			path = Composers;
 			sourceTree = "<group>";
 		};
-		8D85DC9B28E5B9840005C32C /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		8D85DCA428E5BDD60005C32C /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,7 +380,6 @@
 		8DB1EAFA28E46C6000B40291 /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				8D85DC9B28E5B9840005C32C /* Helpers */,
 				8D1DA1D328E72195003FB2E1 /* Feed Presentation */,
 				8D1DA1C328E71699003FB2E1 /* Feed UI */,
 			);
