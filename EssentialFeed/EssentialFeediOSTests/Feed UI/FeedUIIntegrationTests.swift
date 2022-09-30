@@ -326,6 +326,8 @@ final class FeedUIIntegrationTests: XCTestCase {
         
         // MARK: - FeedLoader
         
+        typealias LoadFeedResult = FeedLoader.Result
+        
         private(set) var feedRequests: [(LoadFeedResult) -> Void] = []
         
         var loadFeedCallCount: Int {
