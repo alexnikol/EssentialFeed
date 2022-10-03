@@ -4,6 +4,14 @@ import XCTest
 import EssentialFeed
 
 class RemoteFeedImageDataLoader {
+    private struct HTTPTaskWrapper: FeedImageDataLoaderTask {
+        let wrapped: HTTPClientTask
+        
+        func cancel() {
+            wrapped.cancel()
+        }
+    }
+    
     private let client: HTTPClient
     
     public enum Error: Swift.Error {
@@ -14,8 +22,9 @@ class RemoteFeedImageDataLoader {
         self.client = client
     }
     
-    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) {
-        client.get(from: url, completion: { [weak self] result in
+    @discardableResult
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+        let task = client.get(from: url, completion: { [weak self] result in
             guard self != nil else { return }
             
             switch result {
@@ -29,6 +38,7 @@ class RemoteFeedImageDataLoader {
                 completion(.success(data))
             }
         })
+        return HTTPTaskWrapper(wrapped: task)
     }
 }
 
@@ -160,13 +170,19 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     }
     
     private class HTTPClientSpy: HTTPClient {
+        private struct Task: HTTPClientTask {
+            func cancel() {}
+        }
+        
         var requestedURLs: [URL] {
             return messages.map { $0.url }
         }
+        
         private var messages: [(url: URL, completion: (Result<(Data, HTTPURLResponse), Error>) -> Void)] = []
         
-        func get(from url: URL, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) {
+        func get(from url: URL, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) -> HTTPClientTask {
             messages.append((url, completion))
+            return Task()
         }
         
         func complete(with error: Error, at index: Int = 0) {
