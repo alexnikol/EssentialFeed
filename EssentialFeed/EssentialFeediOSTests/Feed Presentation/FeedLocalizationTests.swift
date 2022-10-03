@@ -1,7 +1,8 @@
 // Copyright © 2022 Oleksandr Nikolaichuk. All rights reserved.
 
 import XCTest
-@testable import EssentialFeediOS
+import EssentialFeed
+import EssentialFeediOS
 
 final class FeedLocalizationTests: XCTestCase {
     
