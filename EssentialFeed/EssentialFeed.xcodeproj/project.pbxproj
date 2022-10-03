@@ -361,10 +361,10 @@
 				8D85DCA928E5CF9F0005C32C /* FeedPresenter.swift */,
 				8D85DCAB28E5DEEE0005C32C /* FeedViewModel.swift */,
 				8D85DCAD28E5DF060005C32C /* FeedLoadingViewModel.swift */,
+				8D1DA1E728EAD851003FB2E1 /* FeedErrorViewModel.swift */,
 				8D85DCAF28E5DFB80005C32C /* FeedImagePresenter.swift */,
 				8D85DCB128E5E9460005C32C /* FeedImageViewModel.swift */,
 				8D1DA1D028E71EA9003FB2E1 /* Feed.strings */,
-				8D1DA1E728EAD851003FB2E1 /* FeedErrorViewModel.swift */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
