@@ -9,6 +9,10 @@ struct FeedErrorViewModel {
     static var noError: FeedErrorViewModel {
         return FeedErrorViewModel(message: nil)
     }
+    
+    static func error(message: String) -> FeedErrorViewModel {
+        return FeedErrorViewModel(message: message)
+    }
 }
 
 protocol FeedErrorView {
@@ -42,6 +46,13 @@ class FeedPresenter {
         self.loadingView = loadingView
     }
     
+    private var feedLoadError: String {
+        NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
+                          tableName: "Feed",
+                          bundle: Bundle(for: FeedPresenter.self),
+                          comment: "Error message displayed when we can't load the image feed from the server")
+    }
+    
     func didStartLoadingFeed() {
         errorView.display(.noError)
         loadingView.display(.init(isLoading: true))
@@ -51,6 +62,11 @@ class FeedPresenter {
         feedView.display(FeedViewModel(feed: feed))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
+    
+    func didFinishLoadingFeed(with error: Error) {
+        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        errorView.display(FeedErrorViewModel.error(message: feedLoadError))
+    }
 }
 
 class FeedPresenterTests: XCTestCase {
@@ -59,6 +75,17 @@ class FeedPresenterTests: XCTestCase {
         let (_, view) = makeSUT()
         
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages")
+    }
+        
+    func test_didStartLoadingFeed_displaysNoErrorMessageAndStartsLoading() {
+        let (sut, view) = makeSUT()
+        
+        sut.didStartLoadingFeed()
+        
+        XCTAssertEqual(view.messages, [
+            .display(errorMessage: .none),
+            .display(isLoading: true)
+        ])
     }
     
     func test_didFinishLoadingFeed_displaysFeedAndStopsLoading() {
@@ -73,15 +100,35 @@ class FeedPresenterTests: XCTestCase {
         ])
     }
     
-    func test_didStartLoadingFeed_displaysNoErrorMessageAndStartsLoading() {
+    func test_didFinishLoadingFeedWithErrir_displaysErrorMessageAndStopsLoading() {
         let (sut, view) = makeSUT()
         
-        sut.didStartLoadingFeed()
+        sut.didFinishLoadingFeed(with: anyNSError())
         
         XCTAssertEqual(view.messages, [
-            .display(errorMessage: .none),
-            .display(isLoading: true)
+            .display(errorMessage: localized("FEED_VIEW_CONNECTION_ERROR")),
+            .display(isLoading: false)
         ])
+    }
+        
+    // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedPresenter, store: ViewSpy) {
+        let view = ViewSpy()
+        let sut = FeedPresenter(feedView: view, loadingView: view, errorView: view)
+        trackForMemoryLeaks(view)
+        trackForMemoryLeaks(sut)
+        return (sut, view)
+    }
+    
+    func localized(_ key: String, file: StaticString = #file, line: UInt = #line) -> String {
+        let table = "Feed"
+        let bundle = Bundle(for: FeedPresenter.self)
+        let value = bundle.localizedString(forKey: key, value: nil, table: table)
+        if value == key {
+            XCTFail("Missing localized string for key: \(key) in table: \(table)", file: file, line: line)
+        }
+        return value
     }
     
     private class ViewSpy: FeedErrorView, FeedLoadingView, FeedView {
@@ -104,15 +151,5 @@ class FeedPresenterTests: XCTestCase {
         func display(_ viewModel: FeedViewModel) {
             messages.insert(.display(feed: viewModel.feed))
         }
-    }
-    
-    // MARK: - Helpers
-    
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedPresenter, store: ViewSpy) {
-        let view = ViewSpy()
-        let sut = FeedPresenter(feedView: view, loadingView: view, errorView: view)
-        trackForMemoryLeaks(view)
-        trackForMemoryLeaks(sut)
-        return (sut, view)
     }
 }
