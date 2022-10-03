@@ -2,7 +2,8 @@
 
 import Foundation
 
-public class RemoteFeedImageDataLoader {
+public final class RemoteFeedImageDataLoader: FeedImageDataLoader {
+    
     private final class HTTPClientTaskWrapper: FeedImageDataLoaderTask {
         private var completion: ((FeedImageDataLoader.Result) -> Void)?
         
