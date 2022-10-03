@@ -1,6 +1,7 @@
 // Copyright © 2022 Oleksandr Nikolaichuk. All rights reserved.
 
 import UIKit
+import EssentialFeed
 
 protocol FeedImageCellControllerDelegate {
      func didRequestImage()
