@@ -46,7 +46,7 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
         sut?.save(anyData(), for: anyURL()) { received.append($0) }
         
         sut = nil
-        store.completeInsertionSuccessfully()z
+        store.completeInsertionSuccessfully()
         
         XCTAssertTrue(received.isEmpty, "Expected no received results after instance has been deallocated")
     }
