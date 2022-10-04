@@ -2,31 +2,7 @@
 
 import XCTest
 import EssentialFeed
-
-class FeedLoaderWithFallback: FeedLoader {
-    private let primaryLoader: FeedLoader
-    private let fallbackLoader: FeedLoader
-    
-    init(primaryLoader: FeedLoader, fallbackLoader: FeedLoader) {
-        self.primaryLoader = primaryLoader
-        self.fallbackLoader = fallbackLoader
-    }
-    
-    func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        primaryLoader.load { [weak self] result in
-            
-            switch result {
-            case .success:
-                completion(result)
-                
-            case .failure:
-                self?.fallbackLoader.load { result in
-                    completion(result)
-                }
-            }
-        }
-    }
-}
+import EssentialApp
 
 class FeedLoaderWithFallbackCompositeTests: XCTestCase {
     
@@ -50,10 +26,10 @@ class FeedLoaderWithFallbackCompositeTests: XCTestCase {
     private func makeSUT(primaryResult: FeedLoader.Result,
                          fallbackResult: FeedLoader.Result,
                          file: StaticString = #file,
-                         line: UInt = #line) -> FeedLoaderWithFallback {
+                         line: UInt = #line) -> FeedLoaderWithFallbackComposite {
         let primaryLoader = LoaderStub(result: primaryResult)
         let fallbackLoader = LoaderStub(result: fallbackResult)
-        let sut = FeedLoaderWithFallback(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
+        let sut = FeedLoaderWithFallbackComposite(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(primaryLoader, file: file, line: line)
         trackForMemoryLeaks(fallbackLoader, file: file, line: line)
