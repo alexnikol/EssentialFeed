@@ -68,18 +68,26 @@ extension LocalFeedLoader {
             
             switch result {
             case .failure:
-                self.store.deleteCachedFeed { _ in
-                    completion(.success(()))
+                self.store.deleteCachedFeed { error in
+                    completion(LocalFeedLoader.handle(error))
                 }
                 
             case let .found(_, timestamp) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
-                self.store.deleteCachedFeed { _ in
-                    completion(.success(()))
+                self.store.deleteCachedFeed { error in
+                    completion(LocalFeedLoader.handle(error))
                 }
                 
             case .empty, .found:
                 completion(.success(()))
             }
+        }
+    }
+    
+    private static func handle(_ error: Error?) -> ValidationResult {
+        if let error = error {
+            return .failure(error)
+        } else {
+            return .success(())
         }
     }
 }
