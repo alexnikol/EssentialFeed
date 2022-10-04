@@ -26,14 +26,10 @@ extension LocalFeedImageDataLoader {
     }
     
     public func save(_ data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
-        store.insert(data, for: url, completion: { result in
-            switch result {
-            case .failure:
-                completion(.failure(SaveError.failed))
-                
-            default: break
-            }
-        })
+        store.insert(data, for: url) { result in
+            completion(result
+                .mapError { _ in SaveError.failed })
+        }
     }
 }
 
