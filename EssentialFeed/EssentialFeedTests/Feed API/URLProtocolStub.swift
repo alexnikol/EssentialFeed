@@ -3,8 +3,6 @@
 import Foundation
 
 class URLProtocolStub: URLProtocol {
-    private static var requestObserver: ((URLRequest) -> Void)?
-    
     private struct Stub {
         let data: Data?
         let response: URLResponse?
@@ -19,17 +17,17 @@ class URLProtocolStub: URLProtocol {
     }
     
     private static let queue = DispatchQueue(label: "URLProtocolStub.queue")
-            
+    
+    static func stub(data: Data?, response: URLResponse?, error: Error?) {
+        stub = Stub(data: data, response: response, error: error, requestObserver: nil)
+    }
+    
     static func observeRequests(observer: @escaping (URLRequest) -> Void) {
         stub = Stub(data: nil, response: nil, error: nil, requestObserver: observer)
     }
     
     static func removeStub() {
-        requestObserver = nil
-    }
-    
-    static func stub(data: Data?, response: URLResponse?, error: Error? = nil) {
-        stub = Stub(data: data, response: response, error: error, requestObserver: nil)
+        stub = nil
     }
     
     override class func canInit(with request: URLRequest) -> Bool {
@@ -41,11 +39,6 @@ class URLProtocolStub: URLProtocol {
     }
     
     override func startLoading() {
-        if let requestObserver = URLProtocolStub.requestObserver {
-            client?.urlProtocolDidFinishLoading(self)
-            return requestObserver(request)
-        }
-        
         guard let stub = URLProtocolStub.stub else { return }
         
         if let data = stub.data {
