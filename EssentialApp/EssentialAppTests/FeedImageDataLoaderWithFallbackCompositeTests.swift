@@ -5,28 +5,7 @@ import EssentialFeed
 import EssentialApp
 
 class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
-    
-    func test_loadImageData_deliversPrimaryImageDataOnPrimarySuccess() {
-        let primaryData = Data("primary data".utf8)
-        let fallbackData = Data("fallback data".utf8)
-        let sut = makeSUT(primaryResult: .success(primaryData), fallbackResult: .success(fallbackData))
         
-        expect(sut, toCompleteWith: .success(primaryData))
-    }
-    
-    func test_loadImageData_deliversFallbackImageDataOnPrimaryLoaderFailure() {
-        let fallbackData = Data("fallback data".utf8)
-        let sut = makeSUT(primaryResult: .failure(anyNSError()), fallbackResult: .success(fallbackData))
-        
-        expect(sut, toCompleteWith: .success(fallbackData))
-    }
-    
-    func test_loadImageData_deliversErrorOnPrimaryAndFallbackLoadersFailure() {
-        let sut = makeSUT(primaryResult: .failure(anyNSError()), fallbackResult: .failure(anyNSError()))
-        
-        expect(sut, toCompleteWith: .failure(anyNSError()))
-    }
-    
     // MARK: - Helpers
     
     private func makeSUT(primaryResult: FeedImageDataLoader.Result,
@@ -40,29 +19,6 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         trackForMemoryLeaks(primaryLoader, file: file, line: line)
         trackForMemoryLeaks(fallbackLoader, file: file, line: line)
         return sut
-    }
-    
-    private func expect(_ sut: FeedImageDataLoaderWithFallbackComposite,
-                        toCompleteWith expectedResult: FeedImageDataLoader.Result,
-                        file: StaticString = #file,
-                        line: UInt = #line) {
-        let exp = expectation(description: "Wait on load completion")
-        
-        _ = sut.loadImageData(from: anyURL()) { receivedResult in
-            switch (receivedResult, expectedResult) {
-            case (let .success(receivedData), let .success(expectedData)):
-                XCTAssertEqual(receivedData, expectedData, file: file, line: line)
-                
-            case ((.failure), (.failure)):
-                break
-                
-            default:
-                XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
     }
     
     func anyURL() -> URL {
