@@ -23,21 +23,8 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         let primaryData = Data("primary data".utf8)
         let fallbackData = Data("fallback data".utf8)
         let sut = makeSUT(primaryResult: .success(primaryData), fallbackResult: .success(fallbackData))
-        let exp = expectation(description: "Wait on load completion")
         
-        _ = sut.loadImageData(from: anyURL()) { result in
-            switch result {
-            case let .success(receivedData):
-                XCTAssertEqual(receivedData, primaryData)
-                
-            default:
-                XCTFail("Expected succees with primary data, but got \(result) instead")
-            }
-            
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, toCompleteWith: .success(primaryData))
     }
     
     // MARK: - Helpers
@@ -53,6 +40,26 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         trackForMemoryLeaks(primaryLoader, file: file, line: line)
         trackForMemoryLeaks(fallbackLoader, file: file, line: line)
         return sut
+    }
+    
+    private func expect(_ sut: FeedImageDataLoaderWithFallbackComposite,
+                        toCompleteWith expectedResult: FeedImageDataLoader.Result,
+                        file: StaticString = #file,
+                        line: UInt = #line) {
+        let exp = expectation(description: "Wait on load completion")
+        
+        _ = sut.loadImageData(from: anyURL()) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case (let .success(receivedData), let .success(expectedData)):
+                XCTAssertEqual(receivedData, expectedData)
+                
+            default:
+                XCTFail("Expected result: \(expectedResult), but got \(receivedResult) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
     }
     
     func anyURL() -> URL {
