@@ -22,9 +22,7 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     func test_loadImageData_deliversPrimaryImageDataOnPrimarySuccess() {
         let primaryData = Data("primary data".utf8)
         let fallbackData = Data("fallback data".utf8)
-        let primaryLoader = LoaderStub(result: .success(primaryData))
-        let fallbackLoader = LoaderStub(result: .success(fallbackData))
-        let sut = FeedImageDataLoaderWithFallbackComposite(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
+        let sut = makeSUT(primaryResult: .success(primaryData), fallbackResult: .success(fallbackData))
         let exp = expectation(description: "Wait on load completion")
         
         _ = sut.loadImageData(from: anyURL()) { result in
@@ -43,6 +41,19 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(primaryResult: FeedImageDataLoader.Result,
+                         fallbackResult: FeedImageDataLoader.Result,
+                         file: StaticString = #file,
+                         line: UInt = #line) -> FeedImageDataLoaderWithFallbackComposite {
+        let primaryLoader = LoaderStub(result: primaryResult)
+        let fallbackLoader = LoaderStub(result: fallbackResult)
+        let sut = FeedImageDataLoaderWithFallbackComposite(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(primaryLoader, file: file, line: line)
+        trackForMemoryLeaks(fallbackLoader, file: file, line: line)
+        return sut
+    }
     
     func anyURL() -> URL {
         URL(string: "http://any-url.com")!
