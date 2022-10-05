@@ -27,6 +27,7 @@
 		8DC434DF28ED8FB600B7949B /* XCTestCase+FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC434DE28ED8FB600B7949B /* XCTestCase+FeedLoader.swift */; };
 		8DC434E128ED95F800B7949B /* FeedLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC434E028ED95F800B7949B /* FeedLoaderCacheDecorator.swift */; };
 		8DC434EB28EDACB200B7949B /* EssentialAppUIAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC434EA28EDACB200B7949B /* EssentialAppUIAcceptanceTests.swift */; };
+		8DC434F428EDD06A00B7949B /* DebuggingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC434F328EDD06A00B7949B /* DebuggingSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		8DC434E028ED95F800B7949B /* FeedLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecorator.swift; sourceTree = "<group>"; };
 		8DC434E828EDACB200B7949B /* EssentialAppUIAcceptanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialAppUIAcceptanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DC434EA28EDACB200B7949B /* EssentialAppUIAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialAppUIAcceptanceTests.swift; sourceTree = "<group>"; };
+		8DC434F328EDD06A00B7949B /* DebuggingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggingSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,11 +139,12 @@
 		8D1DA22A28EC5526003FB2E1 /* EssentialApp */ = {
 			isa = PBXGroup;
 			children = (
+				8D1DA22B28EC5526003FB2E1 /* AppDelegate.swift */,
+				8DC434F328EDD06A00B7949B /* DebuggingSceneDelegate.swift */,
+				8D1DA22D28EC5526003FB2E1 /* SceneDelegate.swift */,
 				8D1DA29028EC8AB4003FB2E1 /* FeedLoaderWithFallback.swift */,
 				8DC434D128ED711800B7949B /* FeedImageDataLoaderWithFallbackComposite.swift */,
 				8DC434E028ED95F800B7949B /* FeedLoaderCacheDecorator.swift */,
-				8D1DA22B28EC5526003FB2E1 /* AppDelegate.swift */,
-				8D1DA22D28EC5526003FB2E1 /* SceneDelegate.swift */,
 				8D1DA23128EC5526003FB2E1 /* Main.storyboard */,
 				8D1DA23428EC5528003FB2E1 /* Assets.xcassets */,
 				8D1DA23628EC5528003FB2E1 /* LaunchScreen.storyboard */,
@@ -324,6 +327,7 @@
 			files = (
 				8DC434D228ED711800B7949B /* FeedImageDataLoaderWithFallbackComposite.swift in Sources */,
 				8D1DA22C28EC5526003FB2E1 /* AppDelegate.swift in Sources */,
+				8DC434F428EDD06A00B7949B /* DebuggingSceneDelegate.swift in Sources */,
 				8D1DA29128EC8AB4003FB2E1 /* FeedLoaderWithFallback.swift in Sources */,
 				8DC434E128ED95F800B7949B /* FeedLoaderCacheDecorator.swift in Sources */,
 				8D1DA22E28EC5526003FB2E1 /* SceneDelegate.swift in Sources */,
