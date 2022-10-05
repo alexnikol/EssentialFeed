@@ -38,6 +38,7 @@ final class FeedImageCellController: FeedImageView {
         cell?.feedImageContainer.isShimmering = viewModel.isLoading
         cell?.feedImageRetryButton.isHidden = !viewModel.shouldRetry
         cell?.onRetry = delegate.didRequestImage
+        cell?.feedImageView.accessibilityIdentifier = "FEED_IMAGE"
     }
     
     func preload() {
