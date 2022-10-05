@@ -26,7 +26,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let feedViewController = FeedUIComposer.feedComposedWith(
             feedLoader: FeedLoaderWithFallbackComposite(
-                primaryLoader: remoteFeedLoader,
+                primaryLoader: FeedLoaderCacheDecorator(
+                    decoratee: remoteFeedLoader,
+                    cache: localFeedLoader
+                ),
                 fallbackLoader: localFeedLoader
             ),
             imageLoader: FeedImageDataLoaderWithFallbackComposite(
