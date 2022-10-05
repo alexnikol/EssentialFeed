@@ -54,12 +54,4 @@ class FeedLoaderCacheDecoratorTests: XCTestCase {
         
         wait(for: [exp], timeout: 1.0)
     }
-    
-    private func uniqueFeed() -> [FeedImage] {
-        return [uniqueImage(), uniqueImage(), uniqueImage()]
-    }
-    
-    private func uniqueImage() -> FeedImage {
-        return FeedImage(id: UUID(), description: "any", location: "any", imageURL: URL(string: "https://any-feed-image-url.com")!)
-    }
 }
