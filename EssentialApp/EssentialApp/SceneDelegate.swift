@@ -3,6 +3,7 @@
 import UIKit
 import EssentialFeed
 import EssentialFeediOS
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -11,13 +12,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        let httpClient = URLSessionHTTPClient(session: URLSession.shared)
-        let url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
-        let remoteFeedLoader = RemoteFeedLoader(url: url, client: httpClient)
-        let remoteImageDataLoader = RemoteFeedImageDataLoader(client: httpClient)
+        let remoteURL = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
+        
+        let remoteClient = URLSessionHTTPClient(session: URLSession.shared)
+        let remoteFeedLoader = RemoteFeedLoader(url: remoteURL, client: remoteClient)
+        let remoteImageDataLoader = RemoteFeedImageDataLoader(client: remoteClient)
+        
+        let localStoreURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("feed-store.sqlite")
+        
+        let localStore = try! CoreDataFeedStore(storeURL: localStoreURL)
+        let localFeedLoader = LocalFeedLoader(store: localStore, currentDate: Date.init)
+        let localImageLoader = LocalFeedImageDataLoader(store: localStore)
+        
         let feedViewController = FeedUIComposer.feedComposedWith(
-            feedLoader: remoteFeedLoader,
-            imageLoader: remoteImageDataLoader
+            feedLoader: FeedLoaderWithFallbackComposite(
+                primaryLoader: remoteFeedLoader,
+                fallbackLoader: FeedLoaderWithFallbackComposite(
+                    primaryLoader: remoteFeedLoader,
+                    fallbackLoader: localFeedLoader
+                )
+            ),
+            imageLoader: FeedImageDataLoaderWithFallbackComposite(
+                primaryLoader: localImageLoader,
+                fallbackLoader: remoteImageDataLoader
+            )
         )
         
         window?.rootViewController = feedViewController
