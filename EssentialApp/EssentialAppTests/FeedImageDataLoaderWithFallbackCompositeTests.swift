@@ -6,21 +6,17 @@ import EssentialApp
 
 class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         
-    // MARK: - Helpers
-    
-    private func makeSUT(primaryResult: FeedImageDataLoader.Result,
-                         fallbackResult: FeedImageDataLoader.Result,
-                         file: StaticString = #file,
-                         line: UInt = #line) -> FeedImageDataLoaderWithFallbackComposite {
-        let primaryLoader = LoaderStub(result: primaryResult)
-        let fallbackLoader = LoaderStub(result: fallbackResult)
-        let sut = FeedImageDataLoaderWithFallbackComposite(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
-        trackForMemoryLeaks(sut, file: file, line: line)
-        trackForMemoryLeaks(primaryLoader, file: file, line: line)
-        trackForMemoryLeaks(fallbackLoader, file: file, line: line)
-        return sut
+    func test_init_doesNotLoadImageData() {
+        let primaryLoader = LoaderSpy()
+        let fallbackLoader = LoaderSpy()
+        _ = FeedImageDataLoaderWithFallbackComposite(primaryLoader: primaryLoader, fallbackLoader: fallbackLoader)
+        
+        XCTAssertTrue(primaryLoader.loadedURLs.isEmpty, "Expected no loaded URLs in the primary loader")
+        XCTAssertTrue(fallbackLoader.loadedURLs.isEmpty, "Expected no loaded URLs in the fallback loader")
     }
     
+    // MARK: - Helpers
+        
     func anyURL() -> URL {
         URL(string: "http://any-url.com")!
     }
@@ -29,20 +25,15 @@ class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         NSError(domain: "any error", code: 0)
     }
     
-    private class LoaderStub: FeedImageDataLoader {
-        private class LoaderStubTask: FeedImageDataLoaderTask {
+    private class LoaderSpy: FeedImageDataLoader {
+        private class Task: FeedImageDataLoaderTask {
             func cancel() {}
         }
         
-        let result: FeedImageDataLoader.Result
+        private(set) var loadedURLs: [URL] = []
         
         func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-            completion(result)
-            return LoaderStubTask()
-        }
-        
-        init(result: FeedImageDataLoader.Result) {
-            self.result = result
+            return Task()
         }
     }
 }
