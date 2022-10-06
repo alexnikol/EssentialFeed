@@ -16,10 +16,16 @@ public class FeedImageDataLoaderCacheDecorator: FeedImageDataLoader {
         return decoratee.loadImageData(from: url, completion: { [weak self] result in
             switch result {
             case let .success(data):
-                self?.cache.save(data, for: url, completion: { _ in })
+                self?.cache.saveIgnoringResult(data, for: url)
             default: break
             }
             completion(result)
         })
+    }
+}
+
+private extension FeedImageDataCache {
+    func saveIgnoringResult(_ data: Data, for url: URL) {
+        save(data, for: url) { _ in }
     }
 }
