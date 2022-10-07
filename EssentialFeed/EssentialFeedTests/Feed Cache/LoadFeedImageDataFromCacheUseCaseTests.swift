@@ -111,7 +111,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    func failure(_ error: LocalFeedImageDataLoader.LoadError) -> LocalFeedImageDataLoader.Result {
+    func failure(_ error: LocalFeedImageDataLoader.LoadError) -> FeedImageDataLoader.Result {
         return .failure(error)
     }
     

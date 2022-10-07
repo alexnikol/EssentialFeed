@@ -59,4 +59,8 @@ extension FeedViewController {
     private var feedImagesSection: Int {
         return 0
     }
+    
+    func renderedFeedImageData(at index: Int) -> Data? {
+        return simulateFeedImageViewVisible(at: index)?.renderedImage
+    }
 }
