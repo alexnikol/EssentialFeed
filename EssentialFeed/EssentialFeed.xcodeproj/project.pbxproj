@@ -335,13 +335,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		8D85DC8E28E5AB540005C32C /* Feed Image Loader */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Feed Image Loader";
-			sourceTree = "<group>";
-		};
 		8D85DC9128E5AB7F0005C32C /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,7 +410,6 @@
 		8DB1EAF028E46C6000B40291 /* EssentialFeediOS */ = {
 			isa = PBXGroup;
 			children = (
-				8D85DC8E28E5AB540005C32C /* Feed Image Loader */,
 				8D85DC9128E5AB7F0005C32C /* Feed UI */,
 			);
 			path = EssentialFeediOS;
